@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Reading Lessons A1–A2 | Miss Mara</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#0d7377;--teal-l:#14a09e;--teal-p:#e0f5f5;
+  --coral:#f4845f;--coral-l:#fde8df;
+  --gold:#f4b942;--gold-l:#fff4d6;
+  --purple:#7c5cbf;--purple-l:#ede8f8;
+  --green:#2e9e6b;--green-l:#d4f5e4;
+  --red:#e03e3e;--red-l:#fdeaea;
+  --bg:#f6f4ef;--card:#ffffff;
+  --text:#1c1c2e;--muted:#6b7280;
+  --shadow:0 4px 20px rgba(0,0,0,0.09);
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* STICKY HEADER */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--teal);color:#fff;
+  display:flex;align-items:center;justify-content:space-between;padding:9px 24px;
+  box-shadow:0 2px 14px rgba(0,0,0,0.2)}
+.hdr-teacher{font-size:1rem;font-weight:800;display:flex;align-items:center;gap:8px}
+.hdr-teacher span{color:var(--gold)}
+.hdr-right{display:flex;align-items:center;gap:14px;font-size:0.85rem}
+.pts-badge{background:var(--gold);color:var(--teal);border-radius:20px;padding:3px 14px;font-weight:800;font-size:0.95rem}
+.lvl-tag{background:rgba(255,255,255,0.18);border-radius:20px;padding:3px 12px}
+
+/* WRAP */
+.wrap{max-width:860px;margin:58px auto 0;padding:28px 16px 70px}
+
+/* PROGRESS */
+.prog-wrap{margin-bottom:26px}
+.prog-lbl{display:flex;justify-content:space-between;font-size:0.8rem;color:var(--muted);margin-bottom:5px}
+.prog-outer{background:#ddd;border-radius:10px;height:9px;overflow:hidden}
+.prog-inner{background:linear-gradient(90deg,var(--teal-l),var(--teal));height:100%;border-radius:10px;transition:width .5s ease}
+
+/* SECTIONS */
+.sec{display:none;animation:fu .4s ease both}
+.sec.active{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* STORY SELECTOR (home) */
+.story-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-top:16px}
+.story-card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:20px 18px;cursor:pointer;
+  border:2px solid transparent;transition:all .2s;text-align:center}
+.story-card:hover{border-color:var(--teal);transform:translateY(-3px)}
+.story-card .emoji{font-size:2.2rem;margin-bottom:8px}
+.story-card .title{font-weight:800;font-size:1rem;margin-bottom:4px}
+.story-card .meta{font-size:0.77rem;color:var(--muted)}
+.story-card .level-dot{display:inline-block;border-radius:20px;padding:2px 10px;font-size:0.72rem;font-weight:800;margin-top:6px}
+.lv-a1{background:#dbeafe;color:#1d4ed8}.lv-a2{background:var(--green-l);color:#15803d}
+
+/* SECTION HEADINGS */
+.sec-title{font-family:'Lora',serif;font-size:1.9rem;color:var(--teal);margin-bottom:4px}
+.sec-sub{font-size:0.93rem;color:var(--muted);margin-bottom:22px;line-height:1.6}
+
+/* CARD */
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:24px;margin-bottom:20px}
+
+/* FLIP VOCAB */
+.flip-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:14px;margin-bottom:20px}
+.fc{perspective:900px;height:115px;cursor:pointer}
+.fci{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1);border-radius:12px}
+.fc.flipped .fci{transform:rotateY(180deg)}
+.fcf,.fcb{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:12px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;text-align:center;
+  box-shadow:0 2px 10px rgba(0,0,0,0.09)}
+.fcf{background:var(--teal);color:#fff}
+.fcf .fw{font-weight:800;font-size:1.05rem}
+.fcf .fp{font-size:0.72rem;opacity:.7;margin-top:3px}
+.fcf .fhint{font-size:0.65rem;opacity:.5;margin-top:5px}
+.fcb{background:var(--gold);color:var(--text);transform:rotateY(180deg)}
+.fcb .fmean{font-size:0.82rem;font-weight:700;margin-bottom:4px}
+.fcb .fes{font-size:0.78rem;color:#7c5c00;font-style:italic}
+.fcb .fpron{font-size:0.7rem;color:#555;margin-top:3px}
+
+/* STORY */
+.story-box{background:#fffdf7;border-left:5px solid var(--teal-l);border-radius:var(--r);padding:22px 24px;
+  line-height:1.85;font-size:0.98rem;margin-bottom:18px}
+.story-box .hl{font-weight:800;color:var(--teal);cursor:pointer;border-bottom:2px dotted var(--teal-l);position:relative}
+.story-box .hl:hover::after{content:attr(data-tip);position:absolute;bottom:120%;left:50%;transform:translateX(-50%);
+  background:#1c1c2e;color:#fff;padding:4px 10px;border-radius:7px;font-size:0.74rem;white-space:nowrap;z-index:10;pointer-events:none}
+
+/* CONVOS */
+.bubble{display:flex;gap:10px;margin-bottom:12px;align-items:flex-start}
+.av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:1rem;font-weight:800;flex-shrink:0}
+.av-a{background:var(--teal);color:#fff}.av-b{background:var(--coral);color:#fff}
+.btext{border-radius:14px 14px 14px 4px;padding:11px 15px;font-size:0.9rem;line-height:1.6;
+  box-shadow:0 1px 5px rgba(0,0,0,0.07);max-width:72%;background:#fff}
+.bubble.b .btext{border-radius:14px 14px 4px 14px;background:#f0f9f4}
+.btext .kw{font-weight:800;color:var(--teal)}
+
+/* MC */
+.mc-q{font-size:.97rem;font-weight:700;margin-bottom:10px;line-height:1.5}
+.mc-opts{display:flex;flex-direction:column;gap:8px}
+.mco{display:flex;align-items:center;gap:9px;background:#f8f5f0;border:2px solid #e0e0e0;
+  border-radius:10px;padding:10px 14px;cursor:pointer;transition:all .18s;font-size:.93rem;font-family:'Nunito',sans-serif}
+.mco:hover{border-color:var(--teal-l);background:var(--teal-p)}
+.mco.correct{background:#d1fae5;border-color:#059669;color:#065f46}
+.mco.wrong{background:var(--red-l);border-color:var(--red);color:#991b1b}
+.mc-fb{font-size:.85rem;margin-top:7px;padding:7px 12px;border-radius:8px;display:none}
+.mc-fb.show{display:block}.mc-fb.correct{background:#d1fae5;color:#065f46}.mc-fb.wrong{background:var(--red-l);color:#991b1b}
+.mc-block{margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid #eee}
+.mc-block:last-child{border-bottom:none}
+
+/* TEXT ENTRY */
+.te-q{font-weight:700;font-size:.95rem;margin-bottom:8px;line-height:1.5}
+.te-inp{border:2px solid #ccc;border-radius:8px;padding:9px 13px;font-size:.93rem;
+  font-family:'Nunito',sans-serif;width:100%;outline:none;transition:border .2s}
+.te-inp:focus{border-color:var(--teal)}
+.te-inp.ok{border-color:#059669;background:#d1fae5}
+.te-inp.no{border-color:var(--red);background:var(--red-l)}
+.te-res{font-size:.83rem;margin-top:5px}
+.te-res.ok{color:#059669}.te-res.no{color:var(--red)}
+.te-block{margin-bottom:20px}
+
+/* MATCHING */
+.match-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mi{background:#f0f9f4;border:2px solid #c8e6d0;border-radius:10px;padding:11px 14px;cursor:pointer;
+  transition:all .18s;font-size:.88rem;text-align:center;font-weight:600;margin-bottom:8px}
+.mi:hover{border-color:var(--teal)}
+.mi.sel{border-color:var(--teal);background:var(--teal-p);box-shadow:0 0 0 3px rgba(13,115,119,.18)}
+.mi.done{background:#d1fae5;border-color:#059669;color:#065f46;cursor:default}
+.mi.bad{background:var(--red-l);border-color:var(--red)}
+.match-fb{font-size:.88rem;min-height:22px;margin-top:6px}
+
+/* MISTAKE */
+.mistake-sent{background:var(--red-l);border:2px solid #fca5a5;border-radius:10px;
+  padding:12px 16px;margin-bottom:8px;font-style:italic;font-size:.96rem}
+
+/* JOIN */
+.join-parts{display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:#f8f5f0;
+  border-radius:10px;padding:12px 16px;margin-bottom:8px;font-size:.93rem}
+.jp1{font-weight:700;color:var(--teal)}.jp2{font-weight:700;color:var(--coral)}
+.join-inp{border:2px solid #ccc;border-radius:8px;padding:9px 13px;font-size:.93rem;
+  font-family:'Nunito',sans-serif;width:100%;outline:none;transition:border .2s}
+.join-inp:focus{border-color:var(--teal)}
+.join-inp.ok{border-color:#059669;background:#d1fae5}
+.join-inp.no{border-color:var(--red);background:var(--red-l)}
+.join-res{font-size:.83rem;margin-top:4px}
+.join-block{margin-bottom:20px}
+
+/* BTNS */
+.btn{display:inline-flex;align-items:center;gap:7px;background:var(--teal);color:#fff;
+  border:none;border-radius:30px;padding:11px 26px;font-size:.95rem;font-weight:800;
+  cursor:pointer;transition:background .18s,transform .1s;font-family:'Nunito',sans-serif}
+.btn:hover{background:#0b6063;transform:translateY(-1px)}
+.btn-s{background:transparent;border:2px solid var(--teal);color:var(--teal)}
+.btn-s:hover{background:var(--teal-p)}
+.btn-g{background:var(--coral);}.btn-g:hover{background:#d95e39}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+
+/* BOX TYPES */
+.tip-box{background:var(--teal-p);border-left:4px solid var(--teal);border-radius:var(--r);
+  padding:16px 20px;margin-bottom:16px}
+.tip-box h4{color:var(--teal);margin-bottom:6px;font-size:.95rem}
+.tip-box p{font-size:.88rem;line-height:1.65}
+
+.vocab-note{display:inline-block;background:var(--gold-l);border:1px solid var(--gold);
+  border-radius:6px;padding:1px 8px;font-size:.78rem;font-weight:700;color:#7c5c00;margin:0 2px}
+
+/* DIVIDER */
+.dvdr{height:2px;background:linear-gradient(90deg,var(--teal-l),transparent);margin:20px 0;border-radius:2px}
+
+/* COMPLETION */
+.done-screen{text-align:center;padding:36px 16px}
+.trophy{font-size:4.5rem;animation:bop .9s infinite alternate}
+@keyframes bop{from{transform:translateY(0)}to{transform:translateY(-14px)}}
+.done-h{font-family:'Lora',serif;font-size:2rem;color:var(--teal);margin:12px 0 6px}
+.stats{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;margin:18px 0}
+.stat{background:var(--teal-p);border-radius:12px;padding:12px 20px;text-align:center}
+.stat-n{font-size:1.9rem;font-weight:900;color:var(--teal)}
+.stat-l{font-size:.75rem;color:var(--muted)}
+
+@media(max-width:600px){
+  .flip-row{grid-template-columns:repeat(2,1fr)}
+  .match-cols{grid-template-columns:1fr}
+  .sec-title{font-size:1.4rem}
+}
+</style>
+</head>
+<body>
+
+<!-- STICKY HEADER -->
+<div class="hdr">
+  <div class="hdr-teacher">👩‍🏫 Teacher — <span>Miss Mara</span></div>
+  <div class="hdr-right">
+    <div class="lvl-tag">A1–A2</div>
+    <div class="pts-badge">⭐ <span id="pts">0</span> pts</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- PROGRESS -->
+  <div class="prog-wrap">
+    <div class="prog-lbl"><span id="prog-lbl">Choose a story to begin</span><span id="prog-pct">0%</span></div>
+    <div class="prog-outer"><div class="prog-inner" id="prog-bar" style="width:3%"></div></div>
+  </div>
+
+  <!-- ══ HOME ══ -->
+  <div class="sec active" id="sec-home">
+    <div class="sec-title">📖 Reading Lessons</div>
+    <div class="sec-sub">Welcome! Each story helps you learn new vocabulary in context. Choose a story to start. Complete all stories to earn your certificate!</div>
+
+    <div class="story-grid">
+      <div class="story-card" onclick="startStory(1)">
+        <div class="emoji">👋</div>
+        <div class="title">Meet Carlos</div>
+        <div class="meta">Introductions & personal ID</div>
+        <div class="level-dot lv-a1">A1</div>
+      </div>
+      <div class="story-card" onclick="startStory(2)">
+        <div class="emoji">🌅</div>
+        <div class="title">A Typical Day</div>
+        <div class="meta">Daily routines & everyday life</div>
+        <div class="level-dot lv-a1">A1–A2</div>
+      </div>
+      <div class="story-card" onclick="startStory(3)">
+        <div class="emoji">🍕</div>
+        <div class="title">Lunch with Friends</div>
+        <div class="meta">Food, opinions & relationships</div>
+        <div class="level-dot lv-a2">A2</div>
+      </div>
+      <div class="story-card" onclick="startStory(4)">
+        <div class="emoji">✈️</div>
+        <div class="title">A Trip to London</div>
+        <div class="meta">Travel & free time</div>
+        <div class="level-dot lv-a2">A2</div>
+      </div>
+      <div class="story-card" onclick="startStory(5)">
+        <div class="emoji">🎓</div>
+        <div class="title">Back to School</div>
+        <div class="meta">Education & hobbies</div>
+        <div class="level-dot lv-a2">A2</div>
+      </div>
+      <div class="story-card" onclick="startStory(6)">
+        <div class="emoji">💼</div>
+        <div class="title">My New Job</div>
+        <div class="meta">Work & personal opinions</div>
+        <div class="level-dot lv-a2">A2</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:24px">
+      <div class="tip-box" style="margin:0">
+        <h4>🧭 How to use this lesson</h4>
+        <p>1. Click a story card to open it. &nbsp;2. Flip the vocabulary cards to learn key words first. &nbsp;3. Read the story — click highlighted words for a quick translation. &nbsp;4. Complete all activities. &nbsp;5. Earn points and level up! 🏆</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       STORY 1 — Meet Carlos (A1)
+  ═══════════════════════════════════════════ -->
+  <div class="sec" id="sec-s1">
+    <div class="sec-title">👋 Story 1: Meet Carlos <span class="level-dot lv-a1" style="font-size:.7rem;vertical-align:middle">A1</span></div>
+    <div class="sec-sub">Topic: Introductions &amp; Personal Identification · Read the story, then do the activities.</div>
+
+    <!-- VOCAB CARDS -->
+    <div class="card">
+      <p style="font-weight:800;margin-bottom:12px;color:var(--teal)">📇 Key Vocabulary — Flip the cards!</p>
+      <div class="flip-row" id="vc-s1"></div>
+      <p style="font-size:.78rem;color:var(--muted)">💡 Tap each card to see the meaning in English and Spanish.</p>
+    </div>
+
+    <!-- STORY -->
+    <div class="card">
+      <p style="font-weight:800;margin-bottom:12px;color:var(--teal)">📖 Read the Story</p>
+      <div class="story-box">
+        My <span class="hl" data-tip="name = nombre">name</span> is Carlos. I am 28 years old. I am from <span class="hl" data-tip="Mexico = México">Mexico</span>, but I live in Madrid now. I am <span class="hl" data-tip="married = casado">married</span> and I have one son. His <span class="hl" data-tip="name = nombre">name</span> is Miguel. He is three years old.<br><br>
+        I work as an <span class="hl" data-tip="engineer = ingeniero">engineer</span>. I work in a big <span class="hl" data-tip="company = empresa">company</span> near the city centre. My <span class="hl" data-tip="colleague = compañero de trabajo">colleagues</span> are very friendly. I like my job very much.<br><br>
+        In my free time, I like to read books and <span class="hl" data-tip="cycle = andar en bicicleta">cycle</span> in the park. My <span class="hl" data-tip="favourite = favorito">favourite</span> book is a <span class="hl" data-tip="fiction = ficción">fiction</span> story about adventures. On weekends, I sometimes play <span class="hl" data-tip="basketball = baloncesto">basketball</span> with my friends. I am happy in Madrid!
+      </div>
+    </div>
+
+    <!-- CONVERSATION -->
+    <div class="card">
+      <p style="font-weight:800;margin-bottom:12px;color:var(--teal)">🗣️ Conversation Practice</p>
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:12px">Read this real conversation about introductions.</p>
+      <div class="bubble a"><div class="av av-a">A</div><div class="btext">Hi! My name is Carlos. What's your name?</div></div>
+      <div class="bubble b"><div class="av av-b">B</div><div class="btext">Hello Carlos! I'm Sofia. Nice to meet you. Where are you from?</div></div>
+      <div class="bubble a"><div class="av av-a">A</div><div class="btext">I'm from Mexico, but I <span class="kw">live</span> in Madrid now. And you?</div></div>
+      <div class="bubble b"><div class="av av-b">B</div><div class="btext">I'm from Spain. I'm a student. What do you do?</div></div>
+      <div class="bubble a"><div class="av av-a">A</div><div class="btext">I'm an <span class="kw">engineer</span>. I work in a <span class="kw">company</span> near here. Do you have any hobbies?</div></div>
+      <div class="bubble b"><div class="av av-b">B</div><div class="btext">Yes! I love cycling. I <span class="kw">cycle</span> every weekend in the park.</div></div>
+      <div class="bubble a"><div class="av av-a">A</div><div class="btext">Me too! Maybe we can <span class="kw">arrange</span> to go cycling together sometime!</div></div>
+    </div>
+
+    <!-- ACTIVITIES -->
+    <div class="card" id="act-s1"></div>
+    <div class="btn-row">
+      <button class="btn btn-s" onclick="checkAllTE('s1')">Check Text Answers ✓</button>
+      <button class="btn btn-s" onclick="checkAllJoins('s1')">Check Join Answers ✓</button>
+      <button class="btn" onclick="goHome()">← All Stories</button>
+      <button class="btn btn-g" onclick="startStory(2)">Next Story →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       STORY 2 — A Typical Day (A1-A2)
+  ═══════════════════════════════════════════ -->
+  <div class="sec" id="sec-s2">
+    <div class="sec-title">🌅 Story 2: A Typical Day <span class="level-dot lv-a1" style="font-size:.7rem;vertical-align:middle">A1–A2</span></div>
+    <div class="sec-sub">Topic: Daily Routines &amp; Everyday Life</div>
+    <div class="card"><p style="font-weight:800;margin-bottom:12px;color:var(--teal)">📇 Key Vocabulary — Flip the cards!</p><div class="flip-row" id="vc-s2"></div></div>
+    <div class="card">
+      <p style="font-weight:800;margin-bottom:12px;color:var(--teal)">📖 Read the Story</p>
+      <div class="story-box">
+        My name is Ana. I have a very <span class="hl" data-tip="daily = diario / de cada día">daily</span> <span class="hl" data-tip="routine = rutina">routine</span>. I wake up at seven o'clock every morning. First, I brush my teeth and take a shower. Then I have breakfast — usually toast and coffee.<br><br>
+        I go to work by <span class="hl" data-tip="public transport = transporte público">public transport</span>. I <span class="hl" data-tip="attend = asistir">attend</span> a language school from nine to one. I am an English teacher. I love my students — they work hard and they are very <span class="hl" data-tip="creative = creativo">creative</span>.<br><br>
+        In the afternoon, I go to the <span class="hl" data-tip="gym = gimnasio">gym</span>. I think it is important to stay <span class="hl" data-tip="fit = en forma">fit</span>. After the gym, I cook dinner at home. I usually cook fresh vegetables and chicken.<br><br>
+        In the evening, I read or watch a <span class="hl" data-tip="comedy = comedia">comedy</span> on TV. I <span class="hl" data-tip="definitely = definitivamente">definitely</span> enjoy my evenings! I go to sleep at eleven o'clock.
+      </div>
+    </div>
+    <div class="card">
+      <p style="font-weight:800;margin-bottom:12px;color:var(--teal)">🗣️ Conversation Practice</p>
+      <div class="bubble a"><div class="av av-a">A</div><div class="btext">What time do you usually wake up?</div></div>
+      <div class="bubble b"><div class="av av-b">B</div><div class="btext">I wake up at seven. It's my <span class="kw">daily</span> routine. What about you?</div></div>
+      <div class="bubble a"><div class="av av-a">A</div><div class="btext">Me too! Do you go to the gym?</div></div>
+      <div class="bubble b"><div class="av av-b">B</div><div class="btext">Yes, I go every afternoon. I think it's important to stay <span class="kw">fit</span>. Do you agree?</div></div>
+      <div class="bubble a"><div class="av av-a">A</div><div class="btext">I <span class="kw">definitely</span> agree. I also cycle to work. It's good for your health.</div></div>
+      <div class="bubble b"><div class="av av-b">B</div><div class="btext">That's a great idea! I want to be more <span class="kw">active</span> too.</div></div>
+    </div>
+    <div class="card" id="act-s2"></div>
+    <div class="btn-row">
+      <button class="btn btn-s" onclick="checkAllTE('s2')">Check Text Answers ✓</button>
+      <button class="btn btn-s" onclick="checkAllJoins('s2')">Check Join Answers ✓</button>
+      <button class="btn" onclick="goHome()">← All Stories</button>
+      <button class="btn btn-g" onclick="startStory(3)">Next Story →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       STORY 3 — Lunch with Friends (A2)
+  ═══════════════════════════════════════════ -->
+  <div class="sec" id="sec-s3">
+    <div class="sec-title">🍕 Story 3: Lunch with Friends <span class="level-dot lv-a2" style="font-size:.7rem;vertical-align:middle">A2</span></div>
+    <div class="sec-sub">Topic: Food, Opinions &amp; Relationships</div>
+    <div class="card"><p style="font-weight:800;margin-bottom:12px;color:var(--teal)">📇 Key Vocabulary — Flip the cards!</p><div class="flip-row" id="vc-s3"></div></div>
+    <div class="card">
+      <p style="font-weight:800;margin-bottom:12px;color:var(--teal)">📖 Read the Story</p>
+      <div class="story-box">
+        Every Friday, Mia meets her friends for lunch. They usually go to a small restaurant near their office. Today, they have a table for four people.<br><br>
+        Mia looks at the menu. She sees different <span class="hl" data-tip="choice = elección / opción">choices</span>: soup, pasta, and grilled <span class="hl" data-tip="beef = carne de res">beef</span>. She wants to try something new, so she orders the beef with vegetables. Her friend Tom orders pasta because he <span class="hl" data-tip="prefer = preferir">prefers</span> vegetarian food.<br><br>
+        "I think the food here is <span class="hl" data-tip="excellent = excelente">excellent</span>," says Mia. "I <span class="hl" data-tip="agree = estar de acuerdo">agree</span>," says Tom. "The chef is very <span class="hl" data-tip="creative = creativo">creative</span>."<br><br>
+        After lunch, they have coffee and a <span class="hl" data-tip="biscuit = galleta">biscuit</span>. They talk about their week. Mia says her new project is exciting but also very <span class="hl" data-tip="common = común">common</span> in her <span class="hl" data-tip="department = departamento">department</span>. Tom <span class="hl" data-tip="complain = quejarse">complains</span> that his boss gives him too much work.<br><br>
+        "Well," says Mia with a smile, "at least we have these lunches to look forward to!"
+      </div>
+    </div>
+    <div class="card">
+      <p style="font-weight:800;margin-bottom:12px;color:var(--teal)">🗣️ Conversation Practice</p>
+      <div class="bubble a"><div class="av av-a">A</div><div class="btext">What do you usually order for lunch?</div></div>
+      <div class="bubble b"><div class="av av-b">B</div><div class="btext">I usually order pasta. I <span class="kw">prefer</span> vegetarian food. What about you?</div></div>
+      <div class="bubble a"><div class="av av-a">A</div><div class="btext">I like beef or chicken. I think it's <span class="kw">excellent</span> here. Do you <span class="kw">agree</span>?</div></div>
+      <div class="bubble b"><div class="av av-b">B</div><div class="btext">Yes, I do! The <span class="kw">chef</span> is very <span class="kw">creative</span>. I always enjoy coming here.</div></div>
+      <div class="bubble a"><div class="av av-a">A</div><div class="btext">Me too. I also like the <span class="kw">choice</span> on the menu. There's something for everyone.</div></div>
+      <div class="bubble b"><div class="av av-b">B</div><div class="btext">That's true. Shall we <span class="kw">arrange</span> to come again next Friday?</div></div>
+    </div>
+    <div class="card" id="act-s3"></div>
+    <div class="btn-row">
+      <button class="btn btn-s" onclick="checkAllTE('s3')">Check Text Answers ✓</button>
+      <button class="btn btn-s" onclick="checkAllJoins('s3')">Check Join Answers ✓</button>
+      <button class="btn" onclick="goHome()">← All Stories</button>
+      <button class="btn btn-g" onclick="startStory(4)">Next Story →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       STORY 4 — A Trip to London (A2)
+  ═══════════════════════════════════════════ -->
+  <div class="sec" id="sec-s4">
+    <div class="sec-title">✈️ Story 4: A Trip to London <span class="level-dot lv-a2" style="font-size:.7rem;vertical-align:middle">A2</span></div>
+    <div class="sec-sub">Topic: Travel &amp; Free Time</div>
+    <div class="card"><p style="font-weight:800;margin-bottom:12px;color:var(--teal)">📇 Key Vocabulary — Flip the cards!</p><div class="flip-row" id="vc-s4"></div></div>
+    <div class="card">
+      <p style="font-weight:800;margin-bottom:12px;color:var(--teal)">📖 Read the Story</p>
+      <div class="story-box">
+        Last summer, Lucia went <span class="hl" data-tip="abroad = al extranjero">abroad</span> for the first time. She travelled to London by <span class="hl" data-tip="airline = aerolínea">airline</span> from Madrid. The flight was short — only two hours.<br><br>
+        In London, she stayed in a small hotel near the city centre. Every morning, she walked to a café for breakfast. She loved the <span class="hl" data-tip="fresh = fresco">fresh</span> orange juice and toast.<br><br>
+        Lucia visited many places. She went to an art <span class="hl" data-tip="gallery = galería">gallery</span> and saw beautiful paintings. She also walked across a famous <span class="hl" data-tip="bridge = puente">bridge</span> and took many photos. One afternoon, she visited a big <span class="hl" data-tip="castle = castillo">castle</span> — it was ancient and very <span class="hl" data-tip="attractive = atractivo">attractive</span>.<br><br>
+        The weather was not always <span class="hl" data-tip="clear = despejado / claro">clear</span>, but Lucia did not mind. She said, "I <span class="hl" data-tip="definitely = definitivamente">definitely</span> want to come back. London is an <span class="hl" data-tip="amazing = increíble">amazing</span> city!" She already has an <span class="hl" data-tip="arrangement = plan / arreglo">arrangement</span> to visit again next year.
+      </div>
+    </div>
+    <div class="card">
+      <p style="font-weight:800;margin-bottom:12px;color:var(--teal)">🗣️ Conversation Practice</p>
+      <div class="bubble a"><div class="av av-a">A</div><div class="btext">Have you ever travelled <span class="kw">abroad</span>?</div></div>
+      <div class="bubble b"><div class="av av-b">B</div><div class="btext">Yes! I went to London last summer. I took an <span class="kw">airline</span> from Madrid. It was wonderful.</div></div>
+      <div class="bubble a"><div class="av av-a">A</div><div class="btext">What did you do there? Did you visit any galleries or <span class="kw">castles</span>?</div></div>
+      <div class="bubble b"><div class="av av-b">B</div><div class="btext">Yes, both! I also walked across a famous <span class="kw">bridge</span>. The city is very <span class="kw">attractive</span>.</div></div>
+      <div class="bubble a"><div class="av av-a">A</div><div class="btext">I want to travel abroad too. Do you have any advice?</div></div>
+      <div class="bubble b"><div class="av av-b">B</div><div class="btext"><span class="kw">Definitely</span> book your hotel early! And bring a camera — you'll take hundreds of photos.</div></div>
+    </div>
+    <div class="card" id="act-s4"></div>
+    <div class="btn-row">
+      <button class="btn btn-s" onclick="checkAllTE('s4')">Check Text Answers ✓</button>
+      <button class="btn btn-s" onclick="checkAllJoins('s4')">Check Join Answers ✓</button>
+      <button class="btn" onclick="goHome()">← All Stories</button>
+      <button class="btn btn-g" onclick="startStory(5)">Next Story →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       STORY 5 — Back to School (A2)
+  ═══════════════════════════════════════════ -->
+  <div class="sec" id="sec-s5">
+    <div class="sec-title">🎓 Story 5: Back to School <span class="level-dot lv-a2" style="font-size:.7rem;vertical-align:middle">A2</span></div>
+    <div class="sec-sub">Topic: Education &amp; Hobbies</div>
+    <div class="card"><p style="font-weight:800;margin-bottom:12px;color:var(--teal)">📇 Key Vocabulary — Flip the cards!</p><div class="flip-row" id="vc-s5"></div></div>
+    <div class="card">
+      <p style="font-weight:800;margin-bottom:12px;color:var(--teal)">📖 Read the Story</p>
+      <div class="story-box">
+        David is 32 years old. Last year, he decided to go back to school. He <span class="hl" data-tip="attend = asistir">attends</span> a university in Barcelona. He is studying <span class="hl" data-tip="biology = biología">biology</span> because he wants to become a scientist.<br><br>
+        University life is not easy. David has to write long <span class="hl" data-tip="essays = ensayos">essays</span> and do many <span class="hl" data-tip="experiments = experimentos">experiments</span>. He also has to <span class="hl" data-tip="attend = asistir">attend</span> many <span class="hl" data-tip="conference = conferencia">conferences</span>. Sometimes he is very tired, but he <span class="hl" data-tip="continue = continuar">continues</span> because he loves to <span class="hl" data-tip="discover = descubrir">discover</span> new things.<br><br>
+        In his free time, David has some interesting hobbies. He loves drawing — he has a <span class="hl" data-tip="diary = diario">diary</span> full of his drawings. He also enjoys <span class="hl" data-tip="fishing = pesca">fishing</span> near a lake outside the city on Sundays.<br><br>
+        David says: "I think <span class="hl" data-tip="education = educación">education</span> is the best <span class="hl" data-tip="advantage = ventaja">advantage</span> you can give yourself. I feel more <span class="hl" data-tip="able = capaz">able</span> to do things now than before."
+      </div>
+    </div>
+    <div class="card">
+      <p style="font-weight:800;margin-bottom:12px;color:var(--teal)">🗣️ Conversation Practice</p>
+      <div class="bubble a"><div class="av av-a">A</div><div class="btext">Are you still studying?</div></div>
+      <div class="bubble b"><div class="av av-b">B</div><div class="btext">Yes! I <span class="kw">attend</span> university now. I'm studying <span class="kw">biology</span>. It's very interesting.</div></div>
+      <div class="bubble a"><div class="av av-a">A</div><div class="btext">That sounds difficult! Do you write many <span class="kw">essays</span>?</div></div>
+      <div class="bubble b"><div class="av av-b">B</div><div class="btext">Yes, quite a lot. But I also do <span class="kw">experiments</span>, which I love. Do you have any hobbies?</div></div>
+      <div class="bubble a"><div class="av av-a">A</div><div class="btext">I like <span class="kw">drawing</span>. I have a <span class="kw">diary</span> full of sketches. What about you?</div></div>
+      <div class="bubble b"><div class="av av-b">B</div><div class="btext">I enjoy <span class="kw">fishing</span> on Sundays. It's very relaxing. I think hobbies are a great <span class="kw">advantage</span> for the mind.</div></div>
+    </div>
+    <div class="card" id="act-s5"></div>
+    <div class="btn-row">
+      <button class="btn btn-s" onclick="checkAllTE('s5')">Check Text Answers ✓</button>
+      <button class="btn btn-s" onclick="checkAllJoins('s5')">Check Join Answers ✓</button>
+      <button class="btn" onclick="goHome()">← All Stories</button>
+      <button class="btn btn-g" onclick="startStory(6)">Next Story →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       STORY 6 — My New Job (A2)
+  ═══════════════════════════════════════════ -->
+  <div class="sec" id="sec-s6">
+    <div class="sec-title">💼 Story 6: My New Job <span class="level-dot lv-a2" style="font-size:.7rem;vertical-align:middle">A2</span></div>
+    <div class="sec-sub">Topic: Work &amp; Personal Opinions</div>
+    <div class="card"><p style="font-weight:800;margin-bottom:12px;color:var(--teal)">📇 Key Vocabulary — Flip the cards!</p><div class="flip-row" id="vc-s6"></div></div>
+    <div class="card">
+      <p style="font-weight:800;margin-bottom:12px;color:var(--teal)">📖 Read the Story</p>
+      <div class="story-box">
+        Rosa started a new job three months ago. She is an <span class="hl" data-tip="assistant = asistente">assistant</span> at a design company. Her <span class="hl" data-tip="employer = empleador">employer</span> is a nice woman called Mrs Garcia. Rosa feels very <span class="hl" data-tip="comfortable = cómoda">comfortable</span> at work.<br><br>
+        Rosa's main <span class="hl" data-tip="department = departamento">department</span> works on advertising. She helps to <span class="hl" data-tip="design = diseñar">design</span> advertisements for <span class="hl" data-tip="fashion = moda">fashion</span> brands. She needs to be very <span class="hl" data-tip="creative = creativo">creative</span> every day.<br><br>
+        She <span class="hl" data-tip="earn = ganar (dinero)">earns</span> a good <span class="hl" data-tip="amount = cantidad">amount</span> of money, which allows her to save for a holiday <span class="hl" data-tip="abroad = en el extranjero">abroad</span>. She is also learning new digital <span class="hl" data-tip="skills = habilidades">skills</span> every week.<br><br>
+        "I <span class="hl" data-tip="definitely = definitivamente">definitely</span> think this job is a big <span class="hl" data-tip="advantage = ventaja">advantage</span> for my career," says Rosa. "My <span class="hl" data-tip="colleague = compañero">colleagues</span> are very helpful and my <span class="hl" data-tip="boss = jefe">boss</span> always gives good <span class="hl" data-tip="advice = consejo">advice</span>."
+      </div>
+    </div>
+    <div class="card">
+      <p style="font-weight:800;margin-bottom:12px;color:var(--teal)">🗣️ Conversation Practice</p>
+      <div class="bubble a"><div class="av av-a">A</div><div class="btext">How do you like your new job?</div></div>
+      <div class="bubble b"><div class="av av-b">B</div><div class="btext">I love it! I'm an <span class="kw">assistant</span> at a design company. My <span class="kw">employer</span> is very kind.</div></div>
+      <div class="bubble a"><div class="av av-a">A</div><div class="btext">What do you do exactly?</div></div>
+      <div class="bubble b"><div class="av av-b">B</div><div class="btext">I help to <span class="kw">design</span> adverts for <span class="kw">fashion</span> brands. I need to be very <span class="kw">creative</span>.</div></div>
+      <div class="bubble a"><div class="av av-a">A</div><div class="btext">That sounds exciting! Do you <span class="kw">earn</span> well?</div></div>
+      <div class="bubble b"><div class="av av-b">B</div><div class="btext">Yes, a good <span class="kw">amount</span>. And my <span class="kw">boss</span> always gives me useful <span class="kw">advice</span>. I feel very lucky!</div></div>
+    </div>
+    <div class="card" id="act-s6"></div>
+    <div class="btn-row">
+      <button class="btn btn-s" onclick="checkAllTE('s6')">Check Text Answers ✓</button>
+      <button class="btn btn-s" onclick="checkAllJoins('s6')">Check Join Answers ✓</button>
+      <button class="btn" onclick="goHome()">← All Stories</button>
+      <button class="btn btn-g" onclick="showDone()">🏆 Finish!</button>
+    </div>
+  </div>
+
+  <!-- DONE -->
+  <div class="sec" id="sec-done">
+    <div class="card done-screen">
+      <div class="trophy">🏆</div>
+      <div class="done-h">All Stories Complete!</div>
+      <p style="color:var(--muted)">Well done! Teacher — <strong>Miss Mara</strong> is very proud of you!</p>
+      <div class="stats">
+        <div class="stat"><div class="stat-n" id="d-pts">0</div><div class="stat-l">Total Points</div></div>
+        <div class="stat"><div class="stat-n" id="d-ok">0</div><div class="stat-l">Correct Answers</div></div>
+        <div class="stat"><div class="stat-n">6</div><div class="stat-l">Stories Read</div></div>
+      </div>
+      <div class="tip-box" style="text-align:left;max-width:500px;margin:0 auto">
+        <h4>🌟 What you practised:</h4>
+        <p>Introductions · Daily routines · Food &amp; opinions · Travel · Education · Work<br>
+        Vocabulary: ability, abroad, advice, agree, arrange, attend, boss, choice, colleague, creative, daily, definitely, earn, education, excellent, fresh, fit, gallery, and many more A2 words!</p>
+      </div>
+      <div class="btn-row" style="justify-content:center;margin-top:20px">
+        <button class="btn" onclick="restart()">↺ Start Again</button>
+        <button class="btn btn-s" onclick="goHome()">📖 Story Menu</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+// ─── AUDIO ───────────────────────────────────────────────
+let actx;
+function ac(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx}
+function sndOk(){try{const c=ac(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(523,c.currentTime);o.frequency.setValueAtTime(659,c.currentTime+.1);o.frequency.setValueAtTime(784,c.currentTime+.22);g.gain.setValueAtTime(.22,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.6);o.start();o.stop(c.currentTime+.6)}catch(e){}}
+function sndNo(){try{const c=ac(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sawtooth';o.frequency.setValueAtTime(200,c.currentTime);o.frequency.setValueAtTime(160,c.currentTime+.15);g.gain.setValueAtTime(.13,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.4);o.start();o.stop(c.currentTime+.4)}catch(e){}}
+
+// ─── STATE ────────────────────────────────────────────────
+let pts=0,okCount=0,currentStory=0;
+const storiesDone={};
+function addPts(n){pts+=n;okCount++;document.getElementById('pts').textContent=pts}
+function setProg(pct,lbl){
+  document.getElementById('prog-bar').style.width=pct+'%';
+  document.getElementById('prog-lbl').textContent=lbl;
+  document.getElementById('prog-pct').textContent=pct+'%';
+}
+
+// ─── NAV ─────────────────────────────────────────────────
+function showSec(id){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function goHome(){showSec('sec-home');setProg(3,'Choose a story')}
+function startStory(n){
+  currentStory=n;
+  showSec('sec-s'+n);
+  const done=Object.keys(storiesDone).length;
+  setProg(Math.round((done/6)*90)+5,'Story '+n+' of 6');
+}
+function showDone(){
+  storiesDone[currentStory]=true;
+  showSec('sec-done');
+  document.getElementById('d-pts').textContent=pts;
+  document.getElementById('d-ok').textContent=okCount;
+  setProg(100,'All done! 🎉');
+}
+function restart(){pts=0;okCount=0;document.getElementById('pts').textContent='0';Object.keys(storiesDone).forEach(k=>delete storiesDone[k]);goHome();}
+
+// ─── VOCAB DATA ──────────────────────────────────────────
+const vcData={
+  s1:[
+    {w:'name',p:'/neɪm/',es:'nombre',m:'What you are called'},
+    {w:'married',p:'/ˈmærid/',es:'casado/a',m:'Having a husband or wife'},
+    {w:'engineer',p:'/ˌendʒɪˈnɪər/',es:'ingeniero/a',m:'A person who designs or builds things'},
+    {w:'colleague',p:'/ˈkɒliːɡ/',es:'compañero de trabajo',m:'A person you work with'},
+    {w:'cycle',p:'/ˈsaɪkl/',es:'andar en bici',m:'To ride a bicycle'},
+    {w:'fiction',p:'/ˈfɪkʃn/',es:'ficción',m:'Stories that are not real'},
+    {w:'arrange',p:'/əˈreɪndʒ/',es:'organizar',m:'To plan or organise something'},
+  ],
+  s2:[
+    {w:'daily',p:'/ˈdeɪli/',es:'diario/a',m:'Happening every day'},
+    {w:'attend',p:'/əˈtend/',es:'asistir',m:'To go to a place or event'},
+    {w:'creative',p:'/kriˈeɪtɪv/',es:'creativo/a',m:'Having new and interesting ideas'},
+    {w:'fit',p:'/fɪt/',es:'en forma',m:'Healthy and strong'},
+    {w:'comedy',p:'/ˈkɒmədi/',es:'comedia',m:'A funny film or show'},
+    {w:'definitely',p:'/ˈdefɪnətli/',es:'definitivamente',m:'Without any doubt'},
+    {w:'active',p:'/ˈæktɪv/',es:'activo/a',m:'Doing lots of physical activity'},
+  ],
+  s3:[
+    {w:'choice',p:'/tʃɔɪs/',es:'elección',m:'The options available to you'},
+    {w:'beef',p:'/biːf/',es:'carne de res',m:'Meat from a cow'},
+    {w:'excellent',p:'/ˈeksələnt/',es:'excelente',m:'Extremely good'},
+    {w:'agree',p:'/əˈɡriː/',es:'estar de acuerdo',m:'To think the same as someone'},
+    {w:'chef',p:'/ʃef/',es:'chef / cocinero',m:'A professional cook'},
+    {w:'complain',p:'/kəmˈpleɪn/',es:'quejarse',m:'To say you are unhappy about something'},
+    {w:'department',p:'/dɪˈpɑːtmənt/',es:'departamento',m:'A part of a company or school'},
+  ],
+  s4:[
+    {w:'abroad',p:'/əˈbrɔːd/',es:'al extranjero',m:'In or to another country'},
+    {w:'airline',p:'/ˈeəlaɪn/',es:'aerolínea',m:'A company that flies passengers'},
+    {w:'gallery',p:'/ˈɡæləri/',es:'galería (de arte)',m:'A place to see art'},
+    {w:'bridge',p:'/brɪdʒ/',es:'puente',m:'A structure built over water or a road'},
+    {w:'castle',p:'/ˈkɑːsl/',es:'castillo',m:'A large, old stone building'},
+    {w:'attractive',p:'/əˈtræktɪv/',es:'atractivo/a',m:'Pleasant or beautiful to look at'},
+    {w:'arrangement',p:'/əˈreɪndʒmənt/',es:'plan / arreglo',m:'A plan you make with someone'},
+  ],
+  s5:[
+    {w:'biology',p:'/baɪˈɒlədʒi/',es:'biología',m:'The science of living things'},
+    {w:'essay',p:'/ˈeseɪ/',es:'ensayo',m:'A piece of written work'},
+    {w:'experiment',p:'/ɪkˈsperɪmənt/',es:'experimento',m:'A scientific test'},
+    {w:'discover',p:'/dɪˈskʌvər/',es:'descubrir',m:'To find or learn something new'},
+    {w:'diary',p:'/ˈdaɪəri/',es:'diario',m:'A book where you write daily events'},
+    {w:'fishing',p:'/ˈfɪʃɪŋ/',es:'pesca',m:'The activity of catching fish'},
+    {w:'advantage',p:'/ədˈvɑːntɪdʒ/',es:'ventaja',m:'Something helpful or useful'},
+  ],
+  s6:[
+    {w:'assistant',p:'/əˈsɪstənt/',es:'asistente',m:'A person who helps someone at work'},
+    {w:'employer',p:'/ɪmˈplɔɪər/',es:'empleador',m:'A person or company that pays workers'},
+    {w:'comfortable',p:'/ˈkʌmftəbl/',es:'cómodo/a',m:'Feeling relaxed and at ease'},
+    {w:'design',p:'/dɪˈzaɪn/',es:'diseñar',m:'To plan how something will look'},
+    {w:'fashion',p:'/ˈfæʃn/',es:'moda',m:'Popular styles of clothes'},
+    {w:'earn',p:'/ɜːn/',es:'ganar (dinero)',m:'To get money for working'},
+    {w:'advice',p:'/ədˈvaɪs/',es:'consejo',m:'Suggestions about what to do'},
+  ]
+};
+
+// ─── BUILD VOCAB CARDS ───────────────────────────────────
+function buildVC(sid){
+  const el=document.getElementById('vc-'+sid);
+  if(!el||el.children.length>0)return;
+  vcData[sid].forEach((v,i)=>{
+    const d=document.createElement('div');
+    d.className='fc';d.id='fc-'+sid+'-'+i;
+    d.onclick=()=>d.classList.toggle('flipped');
+    d.innerHTML=`<div class="fci">
+      <div class="fcf"><div class="fw">${v.w}</div><div class="fp">${v.p}</div><div class="fhint">tap to flip 👆</div></div>
+      <div class="fcb"><div class="fmean">${v.m}</div><div class="fes">🇪🇸 ${v.es}</div><div class="fpron">${v.p}</div></div>
+    </div>`;
+    el.appendChild(d);
+  });
+}
+
+// ─── ACTIVITY DATA ────────────────────────────────────────
+const actData={
+  s1:{
+    mc:[
+      {q:'Where is Carlos from?',opts:['Spain','Mexico','Argentina','Brazil'],ci:1,fb:'Carlos is from Mexico. He lives in Madrid now.'},
+      {q:'What does Carlos do in his free time?',opts:['He plays football','He watches TV only','He reads and cycles','He goes to the cinema'],ci:2,fb:'Carlos reads books and cycles in the park.'},
+      {q:'What kind of book does Carlos like?',opts:['History books','Fiction stories','Science books','Cookbooks'],ci:1,fb:'His favourite book is a fiction story about adventures.'},
+    ],
+    te:[
+      {q:'Complete: Carlos works as an ________ in a big company.',ans:['engineer'],hint:'engineer'},
+      {q:'Complete: His son\'s name is ________ and he is three years old.',ans:['miguel'],hint:'Miguel'},
+    ],
+    mistake:[
+      {wrong:'Carlos have one son named Miguel.',correct:'Carlos has one son named Miguel.',hint:'Use "has" with he/she/it'},
+      {wrong:'He work as an engineer.',correct:'He works as an engineer.',hint:'Add -s for he/she/it'},
+    ],
+    match:[
+      {w:'engineer',d:'a person who designs or builds things'},
+      {w:'colleague',d:'a person you work with'},
+      {w:'fiction',d:'stories that are not real'},
+      {w:'arrange',d:'to plan or organise something'},
+    ],
+    joins:[
+      {s1:'Carlos lives in Madrid.',s2:'He is from Mexico.',key:'but',model:'Carlos lives in Madrid, but he is from Mexico.',accept:['carlos lives in madrid, but he is from mexico','carlos lives in madrid but he is from mexico']},
+      {s1:'He reads books.',s2:'He cycles in the park.',key:'and',model:'He reads books and cycles in the park.',accept:['he reads books and cycles in the park','he reads books and he cycles']},
+    ]
+  },
+  s2:{
+    mc:[
+      {q:'What time does Ana wake up?',opts:['6 o\'clock','7 o\'clock','8 o\'clock','9 o\'clock'],ci:1,fb:'Ana wakes up at seven o\'clock every morning.'},
+      {q:'How does Ana travel to work?',opts:['By car','On foot','By public transport','By bike'],ci:2,fb:'She goes to work by public transport.'},
+      {q:'What does Ana do in the evening?',opts:['She goes to the gym','She works late','She reads or watches comedy','She goes to a restaurant'],ci:2,fb:'She reads or watches a comedy on TV in the evening.'},
+    ],
+    te:[
+      {q:'Complete: Ana goes to the ________ in the afternoon to stay fit.',ans:['gym'],hint:'gym'},
+      {q:'Complete: Ana is an English ________ at a language school.',ans:['teacher'],hint:'teacher'},
+    ],
+    mistake:[
+      {wrong:'She go to work every day by bus.',correct:'She goes to work every day by bus.',hint:'Use "goes" with she'},
+      {wrong:'I definitely enjoys my evenings!',correct:'I definitely enjoy my evenings!',hint:'Don\'t add -s after I'},
+    ],
+    match:[
+      {w:'daily',d:'happening every day'},
+      {w:'fit',d:'healthy and strong'},
+      {w:'attend',d:'to go to a place or event'},
+      {w:'active',d:'doing lots of physical activity'},
+    ],
+    joins:[
+      {s1:'Ana goes to the gym.',s2:'She cooks dinner.',key:'then',model:'Ana goes to the gym. Then she cooks dinner.',accept:['ana goes to the gym then she cooks','ana goes to the gym. then she cooks dinner','she goes to the gym and then cooks dinner']},
+      {s1:'She watches a comedy.',s2:'She reads a book.',key:'or',model:'She watches a comedy or reads a book in the evening.',accept:['she watches a comedy or reads','she reads or watches a comedy']},
+    ]
+  },
+  s3:{
+    mc:[
+      {q:'What does Mia order for lunch?',opts:['Pasta','Soup','Beef with vegetables','Just a biscuit'],ci:2,fb:'Mia orders the beef with vegetables.'},
+      {q:'Why does Tom order pasta?',opts:['It\'s cheaper','He prefers vegetarian food','The beef is bad','The soup is cold'],ci:1,fb:'Tom prefers vegetarian food.'},
+      {q:'What do they say about the chef?',opts:['He is slow','He is very creative','He is rude','He is new'],ci:1,fb:'Mia says "The chef is very creative."'},
+    ],
+    te:[
+      {q:'Complete: After lunch, they have coffee and a ________ .',ans:['biscuit'],hint:'biscuit'},
+      {q:'Complete: Tom ________ that his boss gives him too much work.',ans:['complains'],hint:'complains'},
+    ],
+    mistake:[
+      {wrong:'The food here are excellent.',correct:'The food here is excellent.',hint:'"Food" is uncountable — use "is"'},
+      {wrong:'She want to try something new.',correct:'She wants to try something new.',hint:'Use "wants" with she'},
+    ],
+    match:[
+      {w:'choice',d:'the options available to you'},
+      {w:'beef',d:'meat from a cow'},
+      {w:'complain',d:'to say you are unhappy about something'},
+      {w:'excellent',d:'extremely good'},
+    ],
+    joins:[
+      {s1:'Mia orders beef.',s2:'Tom orders pasta.',key:'but',model:'Mia orders beef, but Tom orders pasta.',accept:['mia orders beef, but tom','mia orders beef but tom orders pasta']},
+      {s1:'The food is excellent.',s2:'The chef is creative.',key:'and',model:'The food is excellent and the chef is creative.',accept:['the food is excellent and the chef is creative','the food is excellent, and the chef']},
+    ]
+  },
+  s4:{
+    mc:[
+      {q:'How did Lucia travel to London?',opts:['By train','By car','By airline','By boat'],ci:2,fb:'She travelled by airline from Madrid.'},
+      {q:'What did Lucia visit one afternoon?',opts:['A museum','A castle','A beach','A market'],ci:1,fb:'She visited a big ancient castle.'},
+      {q:'What did Lucia say about London?',opts:['It was too crowded','She definitely wants to come back','She didn\'t enjoy it','It was too expensive'],ci:1,fb:'Lucia said she definitely wants to come back to London.'},
+    ],
+    te:[
+      {q:'Complete: Lucia went ________ for the first time last summer.',ans:['abroad'],hint:'abroad'},
+      {q:'Complete: She walked across a famous ________ and took photos.',ans:['bridge'],hint:'bridge'},
+    ],
+    mistake:[
+      {wrong:'The weather was not always clearly.',correct:'The weather was not always clear.',hint:'Use the adjective "clear", not the adverb'},
+      {wrong:'She already have an arrangement to visit again.',correct:'She already has an arrangement to visit again.',hint:'Use "has" with she'},
+    ],
+    match:[
+      {w:'abroad',d:'in or to another country'},
+      {w:'gallery',d:'a place to see art'},
+      {w:'attractive',d:'pleasant or beautiful to look at'},
+      {w:'castle',d:'a large, old stone building'},
+    ],
+    joins:[
+      {s1:'She visited a gallery.',s2:'She walked across a bridge.',key:'and',model:'She visited a gallery and walked across a bridge.',accept:['she visited a gallery and walked','she visited a gallery and she walked across a bridge']},
+      {s1:'The weather was not clear.',s2:'Lucia did not mind.',key:'but',model:'The weather was not clear, but Lucia did not mind.',accept:['the weather was not clear, but lucia','the weather was not clear but lucia did not mind']},
+    ]
+  },
+  s5:{
+    mc:[
+      {q:'What is David studying?',opts:['Chemistry','Biology','History','Physics'],ci:1,fb:'David is studying biology.'},
+      {q:'What hobby does David have at home?',opts:['Playing music','Drawing in a diary','Writing essays','Cooking'],ci:1,fb:'He loves drawing — he has a diary full of his drawings.'},
+      {q:'What does David say about education?',opts:['It is too difficult','It is the best advantage','It is boring','It costs too much'],ci:1,fb:'He says education is the best advantage you can give yourself.'},
+    ],
+    te:[
+      {q:'Complete: David has to write long ________ and do experiments.',ans:['essays'],hint:'essays'},
+      {q:'Complete: He enjoys ________ near a lake outside the city.',ans:['fishing'],hint:'fishing'},
+    ],
+    mistake:[
+      {wrong:'He attend university in Barcelona.',correct:'He attends university in Barcelona.',hint:'Add -s for he/she/it'},
+      {wrong:'David finded many new things at university.',correct:'David discovered many new things at university.',hint:'Use "discovered" — the correct past form'},
+    ],
+    match:[
+      {w:'essay',d:'a piece of written work'},
+      {w:'discover',d:'to find or learn something new'},
+      {w:'diary',d:'a book where you write daily events'},
+      {w:'advantage',d:'something helpful or useful'},
+    ],
+    joins:[
+      {s1:'David writes essays.',s2:'He does experiments.',key:'and',model:'David writes essays and does experiments.',accept:['david writes essays and does experiments','david writes essays and he does experiments']},
+      {s1:'He is tired.',s2:'He continues.',key:'but',model:'He is tired, but he continues.',accept:['he is tired, but he continues','he is tired but he continues']},
+    ]
+  },
+  s6:{
+    mc:[
+      {q:'What is Rosa\'s job?',opts:['A chef','A designer','An assistant at a design company','A teacher'],ci:2,fb:'Rosa is an assistant at a design company.'},
+      {q:'What does Rosa\'s department work on?',opts:['Education','Advertising','Fashion shows','Travel plans'],ci:1,fb:'Her department works on advertising.'},
+      {q:'What is Rosa saving money for?',opts:['A new car','A holiday abroad','New clothes','A new phone'],ci:1,fb:'She saves for a holiday abroad.'},
+    ],
+    te:[
+      {q:'Complete: Rosa\'s ________ is a nice woman called Mrs Garcia.',ans:['employer'],hint:'employer'},
+      {q:'Complete: Rosa helps to ________ advertisements for fashion brands.',ans:['design'],hint:'design'},
+    ],
+    mistake:[
+      {wrong:'She earn a good amount of money.',correct:'She earns a good amount of money.',hint:'Add -s for she'},
+      {wrong:'My boss always give good advice.',correct:'My boss always gives good advice.',hint:'Use "gives" with my boss (he/she)'},
+    ],
+    match:[
+      {w:'assistant',d:'a person who helps someone at work'},
+      {w:'comfortable',d:'feeling relaxed and at ease'},
+      {w:'fashion',d:'popular styles of clothes'},
+      {w:'earn',d:'to get money for working'},
+    ],
+    joins:[
+      {s1:'Rosa is creative.',s2:'She helps design advertisements.',key:'so',model:'Rosa is creative, so she helps design advertisements.',accept:['rosa is creative, so she helps','rosa is creative so she helps design']},
+      {s1:'She earns well.',s2:'She saves for a holiday.',key:'so',model:'She earns well, so she saves for a holiday.',accept:['she earns well, so she saves','she earns well so she saves for a holiday']},
+    ]
+  }
+};
+
+// ─── BUILD ACTIVITIES ────────────────────────────────────
+const mcDone={},teDone={};
+function buildActivities(sid){
+  const card=document.getElementById('act-'+sid);
+  if(!card||card.children.length>0)return;
+  const d=actData[sid];
+  let h='';
+
+  // MC
+  h+='<p style="font-weight:800;color:var(--teal);margin-bottom:14px;">🧠 Comprehension & Multiple Choice</p>';
+  d.mc.forEach((q,i)=>{
+    const key=sid+'mc'+i;
+    h+=`<div class="mc-block"><div class="mc-q">${i+1}. ${q.q}</div><div class="mc-opts">`;
+    q.opts.forEach((o,j)=>{
+      h+=`<div class="mco" onclick="doMC(this,'${key}',${q.ci===j},'${q.fb.replace(/'/g,"\\'")}')">`;
+      h+=`${['🅐','🅑','🅒','🅓'][j]} ${o}</div>`;
+    });
+    h+=`</div><div class="mc-fb" id="fb-${key}"></div></div>`;
+  });
+
+  h+='<div class="dvdr"></div>';
+
+  // TEXT ENTRY
+  h+='<p style="font-weight:800;color:var(--teal);margin-bottom:14px;">✏️ Fill in the Blanks</p>';
+  d.te.forEach((t,i)=>{
+    h+=`<div class="te-block"><div class="te-q">${i+1}. ${t.q}</div>
+    <input class="te-inp" id="te-${sid}-${i}" placeholder="Type your answer..." autocomplete="off">
+    <div class="te-res" id="ter-${sid}-${i}"></div></div>`;
+  });
+
+  h+='<div class="dvdr"></div>';
+
+  // CORRECT THE MISTAKE
+  h+='<p style="font-weight:800;color:var(--teal);margin-bottom:14px;">🔍 Correct the Mistake</p>';
+  d.mistake.forEach((m,i)=>{
+    h+=`<div class="te-block"><p style="font-weight:700;margin-bottom:5px;">${i+1}. Find and correct the error:</p>
+    <div class="mistake-sent">❌ "${m.wrong}"</div>
+    <input class="te-inp" id="mist-${sid}-${i}" placeholder="Write the correct sentence..." style="width:100%" autocomplete="off">
+    <p style="font-size:.76rem;color:var(--muted);margin-top:4px;">💡 Hint: ${m.hint}</p>
+    <div class="te-res" id="mistr-${sid}-${i}"></div></div>`;
+  });
+
+  h+='<div class="dvdr"></div>';
+
+  // MATCHING
+  h+='<p style="font-weight:800;color:var(--teal);margin-bottom:14px;">🔗 Matching — click one word, then one definition</p>';
+  h+=`<div class="match-cols"><div id="mw-${sid}"></div><div id="md-${sid}"></div></div>
+  <div class="match-fb" id="mfb-${sid}"></div><div id="ms-${sid}" style="font-size:.85rem;color:var(--muted);margin-top:4px;"></div>`;
+
+  h+='<div class="dvdr"></div>';
+
+  // JOIN SENTENCES
+  h+='<p style="font-weight:800;color:var(--teal);margin-bottom:14px;">🔧 Join the Sentences</p>';
+  h+='<p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;">Use the linking word in brackets to combine the two sentences.</p>';
+  d.joins.forEach((j,i)=>{
+    h+=`<div class="join-block"><div class="join-parts">
+    <span class="jp1">${j.s1}</span><span style="color:#aaa">+</span><span class="jp2">${j.s2}</span>
+    <span style="width:100%;font-size:.75rem;color:var(--muted);">Use: <strong>${j.key}</strong></span>
+    </div>
+    <input class="join-inp" id="ji-${sid}-${i}" placeholder="Write the joined sentence..." autocomplete="off">
+    <div class="join-res" id="jr-${sid}-${i}"></div></div>`;
+  });
+
+  card.innerHTML=h;
+  buildMatching(sid);
+}
+
+// ─── MC ──────────────────────────────────────────────────
+function doMC(el,key,correct,fb){
+  if(mcDone[key])return; mcDone[key]=true;
+  el.parentElement.querySelectorAll('.mco').forEach(o=>o.style.pointerEvents='none');
+  const f=document.getElementById('fb-'+key);
+  if(correct){el.classList.add('correct');f.className='mc-fb show correct';f.textContent='✅ '+fb;sndOk();addPts(10);}
+  else{el.classList.add('wrong');f.className='mc-fb show wrong';f.textContent='❌ '+fb;sndNo();}
+}
+
+// ─── TEXT ENTRY ──────────────────────────────────────────
+function checkAllTE(sid){
+  const d=actData[sid];
+  // fill blanks
+  d.te.forEach((t,i)=>{
+    const inp=document.getElementById('te-'+sid+'-'+i);
+    const res=document.getElementById('ter-'+sid+'-'+i);
+    if(!inp)return;
+    const val=inp.value.trim().toLowerCase().replace(/[.!?]/g,'');
+    const ok=t.ans.some(a=>val===a.toLowerCase()||val.includes(a.toLowerCase()));
+    if(ok){inp.className='te-inp ok';res.className='te-res ok';res.textContent='✅ Correct!';if(!inp.dataset.s){inp.dataset.s='1';addPts(8);sndOk();}}
+    else{inp.className='te-inp no';res.className='te-res no';res.textContent='❌ Try again. Answer: '+t.hint;sndNo();}
+  });
+  // mistakes
+  d.mistake.forEach((m,i)=>{
+    const inp=document.getElementById('mist-'+sid+'-'+i);
+    const res=document.getElementById('mistr-'+sid+'-'+i);
+    if(!inp)return;
+    const val=inp.value.trim().toLowerCase().replace(/[.!?]/g,'');
+    const cor=m.correct.toLowerCase().replace(/[.!?]/g,'');
+    const ok=val===cor||val.includes(cor.substring(0,20))||(cor.split(' ').slice(0,5).every(w=>val.includes(w)));
+    if(ok){inp.className='te-inp ok';res.className='te-res ok';res.textContent='✅ Correct! ✔ '+m.correct;if(!inp.dataset.s){inp.dataset.s='1';addPts(12);sndOk();}}
+    else{inp.className='te-inp no';res.className='te-res no';res.textContent='❌ Correct answer: '+m.correct;sndNo();}
+  });
+}
+
+// ─── JOINS ───────────────────────────────────────────────
+function checkAllJoins(sid){
+  actData[sid].joins.forEach((j,i)=>{
+    const inp=document.getElementById('ji-'+sid+'-'+i);
+    const res=document.getElementById('jr-'+sid+'-'+i);
+    if(!inp)return;
+    const val=inp.value.trim().toLowerCase().replace(/[.!?,]/g,'');
+    const ok=j.accept.some(a=>val.includes(a.toLowerCase().replace(/[.!?,]/g,'').substring(0,28)));
+    if(ok){inp.className='join-inp ok';res.className='join-res';res.style.color='#059669';res.textContent='✅ Great! Model: '+j.model;if(!inp.dataset.s){inp.dataset.s='1';addPts(15);sndOk();}}
+    else{inp.className='join-inp no';res.className='join-res';res.style.color='var(--red)';res.textContent='❌ Try again. Linking word: '+j.key;sndNo();}
+  });
+}
+
+// ─── MATCHING ────────────────────────────────────────────
+const matchSel={},matchDone={},matchCt={};
+function buildMatching(sid){
+  const pairs=actData[sid].match;
+  const wEl=document.getElementById('mw-'+sid);
+  const dEl=document.getElementById('md-'+sid);
+  wEl.innerHTML='';dEl.innerHTML='';
+  matchSel[sid]=null;matchDone[sid]={};matchCt[sid]=0;
+  const shuf=[...pairs].sort(()=>Math.random()-.5);
+  pairs.forEach(p=>{const d=document.createElement('div');d.className='mi';d.textContent=p.w;d.dataset.type='w';d.dataset.val=p.w;d.onclick=()=>doMatch(d,sid);wEl.appendChild(d);});
+  shuf.forEach(p=>{const d=document.createElement('div');d.className='mi';d.textContent=p.d;d.dataset.type='d';d.dataset.val=p.d;d.dataset.word=p.w;d.onclick=()=>doMatch(d,sid);dEl.appendChild(d);});
+}
+function doMatch(el,sid){
+  if(el.classList.contains('done'))return;
+  const pairs=actData[sid].match;
+  const map={};pairs.forEach(p=>map[p.w]=p.d);
+  if(!matchSel[sid]){
+    document.querySelectorAll('#mw-'+sid+' .mi, #md-'+sid+' .mi').forEach(e=>e.classList.remove('sel'));
+    el.classList.add('sel');matchSel[sid]=el;
+  } else {
+    if(el===matchSel[sid]){el.classList.remove('sel');matchSel[sid]=null;return;}
+    if(el.dataset.type===matchSel[sid].dataset.type){matchSel[sid].classList.remove('sel');el.classList.add('sel');matchSel[sid]=el;return;}
+    const wEl=matchSel[sid].dataset.type==='w'?matchSel[sid]:el;
+    const dEl=matchSel[sid].dataset.type==='d'?matchSel[sid]:el;
+    const ok=map[wEl.dataset.val]===dEl.dataset.val;
+    const fb=document.getElementById('mfb-'+sid);
+    if(ok){
+      wEl.classList.remove('sel');dEl.classList.remove('sel');
+      wEl.classList.add('done');dEl.classList.add('done');
+      wEl.style.pointerEvents='none';dEl.style.pointerEvents='none';
+      fb.textContent='✅ Correct match!';fb.style.color='#059669';
+      sndOk();addPts(8);matchCt[sid]++;
+      if(matchCt[sid]===pairs.length){document.getElementById('ms-'+sid).textContent='🎉 All matched!';}
+    } else {
+      wEl.classList.add('bad');dEl.classList.add('bad');sndNo();
+      fb.textContent='❌ Try again!';fb.style.color='var(--red)';
+      setTimeout(()=>{wEl.classList.remove('bad','sel');dEl.classList.remove('bad','sel');fb.textContent='';},800);
+    }
+    matchSel[sid]=null;
+  }
+}
+
+// ─── INIT on story open ──────────────────────────────────
+function startStory(n){
+  currentStory=n;
+  showSec('sec-s'+n);
+  const done=Object.keys(storiesDone).filter(k=>storiesDone[k]).length;
+  setProg(Math.round((done/6)*90)+5,'Story '+n+' of 6');
+  const sid='s'+n;
+  buildVC(sid);
+  buildActivities(sid);
+}
+</script>
+</body>
+</html>
